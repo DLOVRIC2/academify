@@ -1,0 +1,75 @@
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+  }
+  
+  .col-md-6 {
+    padding-top: 0px !important;
+    padding: 60px;
+  }
+  
+  .img-fluid {
+    width: 100%;
+    height: auto;
+  }
+  
+  h1 {
+    font-size: 70px; /* Set font size to 70px */
+    color: #f0f0f0;
+    font-family: 'Outfit', sans-serif; /* Set font family to Outfit; make sure to include it in your project */
+    text-align: left;
+  }
+  
+  p {
+    font-size: 18px; /* Set font size to 18px */
+    color: #f0f0f0;
+    font-family: 'Roboto', sans-serif; /* Set font family to Roboto; make sure to include it in your project */
+    margin-top: 10px; /* Add some space between subheadings */
+    text-align: left;
+  }
+  
+
+
+  .text-container {
+    text-align: left;
+}
+
+
+
+.btn {
+  align-items: center;
+  background-image: linear-gradient(144deg,#ff9b38, #ff4e88 50%,#ff4e88);
+  border: 0;
+  border-radius: 8px;
+  box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  display: flex;
+  font-family: Phantomsans, sans-serif;
+  font-size: 20px;
+  justify-content: center;
+  line-height: 1em;
+  max-width: 35%;
+  min-width: 140px;
+  padding: 19px 24px;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.btn:active,
+.btn:hover {
+  outline: 0;
+}
+
+@media (min-width: 768px) {
+  .btn {
+    font-size: 24px;
+    min-width: 196px;
+  }
+}
