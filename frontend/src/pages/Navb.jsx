@@ -14,7 +14,7 @@ const Navb = () => {
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="ms-auto"> {/* This class aligns items to the right */}
-              <Nav.Link href="/generate">Generate</Nav.Link>
+              <Nav.Link href="/search">Search</Nav.Link>
             </Nav>
             <div className="header-btn"> {/* This class aligns items to the right */}
               <a
