@@ -1,0 +1,36 @@
+
+.navbar.sticky {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    padding-left: 0; /* Remove left padding */
+    padding-right: 0;
+}
+
+.navbar .nav-link {
+    color: white; /* Set the text color for navigation links */
+}
+
+.logo {
+  color: #f0f0f0 !important; /* Light gray color for the text */
+  text-shadow: 2px 2px 4px rgba(142, 45, 45, 0.1); /* Subtle shadow for depth */
+  font-weight: bold; /* Bold font weight to make the logo stand out */
+  font-size: 50 px; /* You can adjust the font size to your preference */
+}
+
+
+.btn-grad {
+    margin: 15px;
+    padding: 9px 17px;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: background-position 0.5s, color 0.5s; 
+    background-size: 200% auto;
+    color: white;
+    box-shadow: 0 0 20px #181e4b;
+    border-radius: 20px;
+    display: inline-block; 
+    font-size: x-small;
+}
+
