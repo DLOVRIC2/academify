@@ -1,0 +1,13 @@
+.App {
+  text-align: center;
+}
+
+body {
+  background: rgb(2,0,36);
+  background: linear-gradient(100deg, rgba(2,0,36,1) 0%, rgba(40,40,140,0.8393732492997199) 100%, rgba(0,212,255,1) 100%);
+}
+
+
+.navbar {
+  background: transparent !important;
+}
