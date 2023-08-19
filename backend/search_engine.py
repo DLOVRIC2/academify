@@ -94,9 +94,6 @@ class SearchEngine:
 if __name__ == "__main__":
 
     engine = SearchEngine()
-
     json_data, articles = engine.search_by_title("Chat GPT")
-
     engine._save_json(json_data, filename="search_results.json")
-
     x = 5
