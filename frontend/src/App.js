@@ -5,8 +5,8 @@ import Hero from "./pages/Hero";
 import Featured from "./pages/Featured";
 import Search from "./pages/Search";
 import Body from "./pages/Body"; // Import the Body component
+import ArticlePage from "./pages/ArticlePage"; // Import the ArticlePage component
 import './App.css';
-
 
 function App() {
   return (
@@ -15,6 +15,7 @@ function App() {
         <Navb />
         <Routes>
           <Route path="/search" element={<Search />} />
+          <Route path="/article/:title" element={<ArticlePage />} />
           <Route path="*" element={<Body />} />
         </Routes>
       </div>
