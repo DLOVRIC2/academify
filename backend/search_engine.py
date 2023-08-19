@@ -3,8 +3,18 @@ import pandas as pd
 import json
 from dateutil import parser
 from typing import Generator, Any
+from dataclasses import dataclass
 from dotenv import load_dotenv
 load_dotenv()
+
+@dataclass
+class Article:
+    title: str
+    authors: list
+    abstract: str
+    published: str
+    categories: list
+    pdf_url: str
 
 
 class SearchEngine:
@@ -27,7 +37,9 @@ class SearchEngine:
             sort_by=sort_by,
             sort_order=sort_order,
         )
-        return search.results()
+        articles = self._convert_to_objects(search.results())
+        json_data = self._convert_to_json(articles)
+        return json_data, articles
 
     def search_by_tag(self, tag, max_results=10, sort_by: str = arxiv.SortCriterion.Relevance, sort_order: str = arxiv.SortOrder.Descending):
         # Search by tag
@@ -39,13 +51,14 @@ class SearchEngine:
                 sort_by=sort_by,
                 sort_order=sort_order,
             )
-            return search.results()
+            articles = self._convert_to_objects(search.results())
+            json_data = self._convert_to_json(articles)
+            return json_data, articles
         else:
             raise ValueError(f"Tag {tag} not found in predefined tags")
-    
-    @staticmethod
-    def _convert_to_json(search_generator: Generator[Any, None, None]) -> str:
-        data = []
+        
+    def _convert_to_objects(self, search_generator: Generator[Any, None, None]) -> list:
+        articles = []
         for result in search_generator:
             published_date_string = None
             try:
@@ -55,16 +68,22 @@ class SearchEngine:
             except (AttributeError, ValueError):
                 pass  # Continue if parsing fails
 
-            result_data = {
-                "title": result.title,
-                "authors": [str(author) for author in result.authors],
-                "abstract": result.summary,
-                "published": published_date_string,
-                "categories": result.categories,
-                "pdf_url": result.pdf_url,
-            }
-            data.append(result_data)
+            # Parsing and data conversion code...
+            article = Article(
+                title=result.title,
+                authors=[str(author) for author in result.authors],
+                abstract=result.summary,
+                published=published_date_string,
+                categories=result.categories,
+                pdf_url=result.pdf_url,
+            )
+            articles.append(article)
+        return articles
+    
+    def _convert_to_json(self, articles: list) -> str:
+        data = [article.__dict__ for article in articles]
         return json.dumps(data)
+
     
     @staticmethod
     def _save_json(data, filename):
@@ -76,11 +95,8 @@ if __name__ == "__main__":
 
     engine = SearchEngine()
 
-    # results = engine.search_by_title("Chat gpt", max_results=10)
-    results = engine.search_by_tag("Physics")
+    json_data, articles = engine.search_by_title("Chat GPT")
 
-    data = engine._convert_to_json(results)
-
-    engine._save_json(data, filename="search_results.json")
+    engine._save_json(json_data, filename="search_results.json")
 
     x = 5
