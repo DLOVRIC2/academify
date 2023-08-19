@@ -30,6 +30,9 @@ class ArticleAgent(SearchEngine, VectorDBRetriever):
         
         self.llm = OpenAI(temperature=temperature,
                           openai_api_key=os.environ.get("OPENAI_API_KEY", api_key))
+        
+        self.chat_llm = ChatOpenAI(temperature=0.7, model="gpt-3.5-turbo-0613")
+
     
     def _process_article(self, article) -> list:
         try:
@@ -59,14 +62,11 @@ class ArticleAgent(SearchEngine, VectorDBRetriever):
     
 
     def _llm_chat(self):
-        llm = ChatOpenAI(temperature=0, model="gpt-3.5-turbo-0613")
-
-
         _, articles = self.search_by_title("Chat GPT")
 
         docsearch = self._process_article(articles[0])
 
-        qa_chain = create_qa_with_sources_chain(llm=llm)
+        qa_chain = create_qa_with_sources_chain(llm=self.chat_llm)
 
         doc_prompt = PromptTemplate(
             template="Content: {page_content}\nSource: {source}",
@@ -94,7 +94,7 @@ class ArticleAgent(SearchEngine, VectorDBRetriever):
         CONDENSE_QUESTION_PROMPT = PromptTemplate.from_template(_template)
 
         condense_question_chain = LLMChain(
-            llm=llm,
+            llm=self.chat_llm,
             prompt=CONDENSE_QUESTION_PROMPT
         )
 
