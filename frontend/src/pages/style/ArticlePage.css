@@ -1,0 +1,38 @@
+/* Article Page container styling */
+.article-container {
+    margin: 20px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    color: #f0f0f0;
+    font-family: 'Roboto', sans-serif;
+    padding: 20px;
+  }
+  
+  /* Article title styling */
+  .article-title {
+    font-size: 30px;
+    color: #f0f0f0;
+  }
+  
+  /* Article authors styling */
+  .article-authors {
+    font-size: 20px;
+    margin: 10px 0;
+  }
+  
+  /* Article abstract styling */
+  .article-abstract {
+    font-size: 18px;
+    line-height: 1.5;
+    margin-top: 20px;
+  }
+  
+  /* Article PDF link styling */
+  .article-pdf-link {
+    margin-top: 10px;
+    text-decoration: none;
+    color: #ff4e88;
+  }
+  
