@@ -20,14 +20,14 @@ class VectorDBRetriever:
             path=PERSIST_DIRECTORY
         )
         # Setup chroma db
-        embeddings = OpenAIEmbeddings(
+        self.embeddings = OpenAIEmbeddings(
             openai_api_key=os.environ.get("OPENAI_API_KEY"),
             model=EMBEDDINGS_MODEL_NAME,
         )
 
         self.db = Chroma(
             client=client,
-            embedding_function=embeddings,
+            embedding_function=self.embeddings,
         )
 
         self.retriever = self.db.as_retriever(search_kwargs={"k":n_return_documents})
@@ -52,7 +52,24 @@ class VectorDBRetriever:
                 return True
         return False
     
+
+    def create_vectorstore(self, documents):
+        """If vectorstore doesn't exist. Creates one and ingests new documents"""
+        print(f"Creating a new vectorstore at location {PERSIST_DIRECTORY}")
+        print(f"Embedding and ingesting a total of {len(documents)} chunks. This might take a while.")
+        vectorstore = self.db.from_documents(documents, embedding=self.embeddings)
+        print("Documents successfully ingested!")
+        return vectorstore
     
+    def add_documents(self, documents):
+        """If vectorstore exists, embedd and add more documents to it."""
+        print(f"Embedding and ingesting a total of {len(documents)}. This might take a while.")
+        vectorstore = self.db.add_documents(documents, embeddings=self.embeddings)
+        vectorstore.persist()
+        print("Documents successfully ingested!")
+        return vectorstore
+
+
 
 
 
