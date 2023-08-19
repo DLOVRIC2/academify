@@ -25,34 +25,41 @@ class VectorDBRetriever:
             model=EMBEDDINGS_MODEL_NAME,
         )
 
-        db = Chroma(
+        self.db = Chroma(
             client=client,
             embedding_function=embeddings,
         )
 
-        self.retriever = db.as_retriever(search_kwargs={"k":n_return_documents})
+        self.retriever = self.db.as_retriever(search_kwargs={"k":n_return_documents})
 
     def get_relevant_documents(self, query):
         return self.retriever.get_relevant_documents(query)
 
-
-    def does_vectorstore_exist(persist_directory: str) -> bool:
+    @staticmethod
+    def _does_vectorstore_exist(path_to_vector_db: str = None) -> bool:
         """
         Checks if the vectorstore exists. Index folder inside the persist directory must contain at least 3 items.
         """
+        if not path_to_vector_db:
+            path_to_vector_db = PERSIST_DIRECTORY
 
-        vector_store_location = os.path.join(persist_directory, "index")
+        vector_store_location = os.path.join(path_to_vector_db, "index")
         if os.path.exists(vector_store_location):
-            list_index_files = glob.glob(os.path.join(persist_directory, "index/*.bin"))
-            list_index_files += glob.glob(os.path.join(persist_directory, "index/*.pkl"))
+            list_index_files = glob.glob(os.path.join(path_to_vector_db, "index/*.bin"))
+            list_index_files += glob.glob(os.path.join(path_to_vector_db, "index/*.pkl"))
             # If length > 3 then the vectore store is established
             if len(list_index_files) > 3:
                 return True
         return False
+    
+    
+
+
+
 
 
 if __name__ == "__main__":
 
     vdb = VectorDBRetriever()
 
-    x = 5
+    print(vdb.does_vectorstore_exist())
