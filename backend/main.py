@@ -4,6 +4,9 @@ from fastapi.exceptions import HTTPException
 from pydantic import BaseModel
 from agents import ArticleAgent
 from search_engine import SearchEngine, Article
+from fastapi.middleware.cors import CORSMiddleware
+import uvicorn
+
 
 
 app = FastAPI()
@@ -12,13 +15,24 @@ engine = SearchEngine()
 # Using a dictionary to store ongoing conversations (consider using Redis or a database in production)
 conversations = {}
 
+origins = [
+    "http://localhost:3000",
+]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-@app.get("/search/title/{title}", response_model=str)
+
+@app.get("/search/title/{title}")
 def search_by_title(title: str, max_results: int = 10):
     json_data, _ = engine.search_by_title(title, max_results)
     return json_data
 
-@app.get("/search/tag/{tag}", response_model=str)
+@app.get("/search/tag/{tag}")
 def search_by_tag(tag: str, max_results: int = 10):
     json_data, _ = engine.search_by_tag(tag, max_results)
     return json_data
