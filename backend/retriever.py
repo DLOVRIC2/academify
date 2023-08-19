@@ -31,6 +31,7 @@ class VectorDBRetriever:
         )
 
         self.retriever = self.db.as_retriever(search_kwargs={"k":n_return_documents})
+        self.vectorstore = None
 
     def get_relevant_documents(self, query):
         return self.retriever.get_relevant_documents(query)
@@ -57,9 +58,8 @@ class VectorDBRetriever:
         """If vectorstore doesn't exist. Creates one and ingests new documents"""
         print(f"Creating a new vectorstore at location {PERSIST_DIRECTORY}")
         print(f"Embedding and ingesting a total of {len(documents)} chunks. This might take a while.")
-        vectorstore = self.db.from_documents(documents, embedding=self.embeddings)
+        self.vectorstore = self.db.from_documents(documents, embedding=self.embeddings)
         print("Documents successfully ingested!")
-        return vectorstore
     
     def add_documents(self, documents):
         """If vectorstore exists, embedd and add more documents to it."""
