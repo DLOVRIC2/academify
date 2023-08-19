@@ -1,0 +1,96 @@
+/* Table container styling */
+.table-container {
+    margin: 20px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Table styling */
+  .table-container table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Roboto', sans-serif;
+    color: #f0f0f0;
+  }
+  
+  /* Table header styling */
+  .table-container th {
+    background-color: #404040;
+    padding: 10px 20px; /* Increased padding */
+    text-align: left;
+  }
+  
+  /* Table row styling */
+  .table-container tr {
+    cursor: pointer;
+  }
+  
+  .table-container tr:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Table cell styling */
+  .table-container td {
+    padding: 10px 20px; /* Increased padding */
+    text-align: left; /* Alignment */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  /* Search input styling */
+  .search-input {
+    margin: 20px;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    font-size: 18px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #f0f0f0;
+  }
+  
+  /* Search button styling, similar to existing buttons */
+  .search-button {
+    background-image: linear-gradient(144deg, #ff9b38, #ff4e88 50%, #ff4e88);
+    border: 0;
+    border-radius: 8px;
+    color: #FFFFFF;
+    font-size: 20px;
+    padding: 10px 20px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-position 0.5s, color 0.5s;
+  }
+  
+  .search-button:hover {
+    background-position: right center;
+  }
+  
+  /* Predefined tags button styling */
+  .tag-button {
+    background: transparent;
+    border: none;
+    color: #f0f0f0;
+    margin: 5px;
+    padding: 5px 10px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: color 0.3s;
+  }
+  
+  .tag-button:hover {
+    color: #ff4e88;
+  }
+  
+
+  .search-heading {
+    font-size: 24px;
+    text-align: center;
+    color: #f0f0f0;
+    margin-bottom: 20px;
+  }
+  
+
+.selected-row {
+background-color: rgba(255, 70, 136, 0.2);
+}
