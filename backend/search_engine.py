@@ -12,11 +12,11 @@ class SearchEngine:
         # Predefined tags mapping to arXiv categories
         self.tags = {
             'Physics': 'physics',
-            'Mathematics': 'mathematics',
-            'Computer Science': 'computer science',
-            'AI': 'artificial intelligence',
-            'Economics': 'economics',
-            'Quantitative Finance': 'quantitative-finance'
+            'Mathematics': 'math',
+            'Computer Science': 'cs',
+            'AI': 'cs.AI',
+            'Economics': 'econ',
+            'Quantitative Finance': 'q-fin'
         }
 
     def search_by_title(self, title, max_results=10, sort_by: str = arxiv.SortCriterion.Relevance, sort_order: str = arxiv.SortOrder.Descending):
