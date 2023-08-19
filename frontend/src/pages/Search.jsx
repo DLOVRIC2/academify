@@ -54,9 +54,10 @@ const Search = () => {
     setSelectedArticle(article);
   };
 
-  const handleGo = () => {
+
+  const handleGoClick = () => {
     if (selectedArticle) {
-        navigate(`/article/${selectedArticle.title}`);
+      navigate(`/article/${encodeURIComponent(selectedArticle.title)}`, { state: { article: selectedArticle } });
     }
   };
 
@@ -71,7 +72,7 @@ const Search = () => {
           className="search-input"
         />
         <button type="submit" className="search-button">Search</button>
-        <button type="button" onClick={handleGo} className="search-button">Go</button>
+        <button onClick={handleGoClick} className="search-button">Go</button>
       </form>
       <div>
         {predefinedTags.map((tag) => (
