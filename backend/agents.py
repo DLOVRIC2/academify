@@ -33,6 +33,11 @@ class ArticleAgent(SearchEngine, VectorDBRetriever):
         
         self.chat_llm = ChatOpenAI(temperature=0.7, model="gpt-3.5-turbo-0613")
 
+        self.memory = ConversationBufferMemory(
+            memory_key="chat_history",
+            return_messages=True
+        )
+
     
     def _process_article(self, article) -> list:
         try:
@@ -60,30 +65,7 @@ class ArticleAgent(SearchEngine, VectorDBRetriever):
         except Exception as e:
             print(f"Couldn't process the pdf. Exception raised {e}")
     
-
-    def _llm_chat(self):
-        _, articles = self.search_by_title("Chat GPT")
-
-        docsearch = self._process_article(articles[0])
-
-        qa_chain = create_qa_with_sources_chain(llm=self.chat_llm)
-
-        doc_prompt = PromptTemplate(
-            template="Content: {page_content}\nSource: {source}",
-            input_variables=["page_content", "source"]
-        )
-
-        final_qa_chain = StuffDocumentsChain(
-            llm_chain=qa_chain,
-            document_variable_name="context",
-            document_prompt=doc_prompt,
-        )
-
-        memory = ConversationBufferMemory(
-            memory_key="chat_history",
-            return_messages=True
-        )
-
+    def _condense_question_chain(self):
         _template = """Given the following conversation and a follow up question, rephrase the follow up question to be a standalone question, in its original language.\
         Make sure to avoid using any unclear pronouns.
 
@@ -98,10 +80,34 @@ class ArticleAgent(SearchEngine, VectorDBRetriever):
             prompt=CONDENSE_QUESTION_PROMPT
         )
 
+        return condense_question_chain
+
+    
+
+    def _llm_chat(self):
+        _, articles = self.search_by_title("Chat GPT")
+
+        self._process_article(articles[0])
+
+        qa_chain = create_qa_with_sources_chain(llm=self.chat_llm)
+
+        doc_prompt = PromptTemplate(
+            template="Content: {page_content}\nSource: {source}",
+            input_variables=["page_content", "source"]
+        )
+
+        final_qa_chain = StuffDocumentsChain(
+            llm_chain=qa_chain,
+            document_variable_name="context",
+            document_prompt=doc_prompt,
+        )
+
+        condense_question_chain = self._condense_question_chain()
+
         qa = ConversationalRetrievalChain(
             question_generator=condense_question_chain,
-            retriever=docsearch.as_retriever(),
-            memory=memory,
+            retriever=self.vectorstore.as_retriever(),
+            memory=self.memory,
             combine_docs_chain=final_qa_chain,
         )
         
@@ -110,15 +116,6 @@ class ArticleAgent(SearchEngine, VectorDBRetriever):
         while chat:
             query = input("What is your question: ")
             print(qa({"question": str(query)}))
-
-
-
-    def main(self):
-
-        json_data, articles = self.search_by_title("Chat GPT")
-        self._process_article(article=articles[0])
-        # self._llm_chat()
-
 
 
 
