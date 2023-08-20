@@ -4,7 +4,7 @@ services:
   frontend:
     image: dlovric2/academify-frontend:latest
     ports:
-      - "3000:3000"
+      - "3000:80" 
     depends_on:
       - backend
     networks:
