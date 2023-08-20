@@ -89,7 +89,7 @@
 /* Chat history styling */
 .chat-history {
   flex-grow: 1; /* Allow the chat history to take up available space */
-  max-height: 300px;
+  max-height: 800px;
   overflow-y: auto;
   padding: 10px;
   overflow: auto;
@@ -102,8 +102,8 @@
   align-items: center;
   margin-bottom: 10px;
   text-align: justify;
-
 }
+
 
 /* Chat icon styling */
 .chat-icon {
@@ -116,6 +116,14 @@
 .chat-user {
   font-weight: bold;
   margin-right: 5px;
+  min-width: 50px; /* You can adjust this value to align the text */
+  display: inline-block;
+}
+
+/* Bot message styling */
+.bot {
+  background-color: #5e5e99; /* Light grey */
+  border-radius: 10px;
 }
 
 /* Chat input styling */
