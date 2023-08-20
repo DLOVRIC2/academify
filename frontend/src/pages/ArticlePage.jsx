@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useLocation } from 'react-router-dom';
 import './style/ArticlePage.css';
 import ReactLoading from 'react-loading';
@@ -20,8 +20,12 @@ const ArticlePage = () => {
   const [messageInput, setMessageInput] = useState('');
   const [sessionId, setSessionId] = useState(null);
   const [loading, setLoading] = useState(false);
+  const botMessageIndexRef = useRef(null); // Define botMessageIndexRef using useRef
 
-
+  useEffect(() => {
+    // Update the botMessageIndexRef when the chat history changes
+    botMessageIndexRef.current = chatHistory.length;
+  }, [chatHistory]);
 
   const handleQAButtonClick = async () => {
     setLoading(true);
@@ -41,20 +45,44 @@ const ArticlePage = () => {
   };
 
   const handleSendMessage = async () => {
-    if (messageInput.trim() === '' || !sessionId) return; // Prevent sending empty messages
+    if (messageInput.trim() === '' || !sessionId) return;
   
+    const userMessage = { user: 'User', text: messageInput };
     // Add the user's message to the chat history immediately
-    setChatHistory([...chatHistory, { user: 'User', text: messageInput }]);
+    const newChatHistory = [...chatHistory, userMessage];
+    setChatHistory(newChatHistory);
     setMessageInput(''); // Clear the input field
+  
+    // Initialize the bot's message with an empty string
+    const botMessage = { user: 'Bot', text: '' };
+    setChatHistory([...newChatHistory, botMessage]);
+  
+    // Store the index of the bot message
+    const botMessageIndex = newChatHistory.length; // Index of bot message
+  
+    let botResponse = ""; // Accumulate the bot response here
   
     try {
       const response = await fetch(`http://localhost:8000/chat/${sessionId}?message=${encodeURIComponent(messageInput)}`, {
         method: 'GET'
       });
   
-      const responseText = await response.text();
-      const botResponse = JSON.parse(responseText);
-      setChatHistory([...chatHistory, { user: 'User', text: messageInput }, { user: 'Bot', text: botResponse }]);
+      const reader = response.body.getReader();
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+  
+        // Process each chunk of the response
+        const botResponseChunk = JSON.parse(new TextDecoder().decode(value)).text;
+        botResponse += botResponseChunk; // Append the chunk to the accumulated response
+  
+        // Update the content of the bot message in the chat history
+        setChatHistory(prevChatHistory => {
+          const updatedChatHistory = [...prevChatHistory];
+          updatedChatHistory[botMessageIndex] = { user: 'Bot', text: botResponse };
+          return updatedChatHistory;
+        });
+      }
     } catch (error) {
       console.error('Error sending message:', error);
     }
@@ -62,7 +90,7 @@ const ArticlePage = () => {
   
   
   
-  
+
   const handleInputChange = (e) => {
     setMessageInput(e.target.value);
   };
