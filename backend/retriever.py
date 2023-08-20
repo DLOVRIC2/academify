@@ -58,8 +58,9 @@ class VectorDBRetriever:
         """If vectorstore doesn't exist. Creates one and ingests new documents"""
         print(f"Creating a new vectorstore at location {PERSIST_DIRECTORY}")
         print(f"Embedding and ingesting a total of {len(documents)} chunks. This might take a while.")
-        self.vectorstore = self.db.from_documents(documents, embedding=self.embeddings)
+        vectorstore = self.db.from_documents(documents, embedding=self.embeddings)
         print("Documents successfully ingested!")
+        return vectorstore
     
     def add_documents(self, documents):
         """If vectorstore exists, embedd and add more documents to it."""
