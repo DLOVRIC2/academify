@@ -12,6 +12,7 @@ from langchain.chains.combine_documents.stuff import StuffDocumentsChain
 from langchain.chat_models import ChatOpenAI
 import json
 from search_engine import Article
+import time
 
 
 
@@ -124,7 +125,14 @@ class ArticleAgent(SearchEngine, VectorDBRetriever):
         bot_response = ""
         response = qa({"question": str(question)})
         bot_response = response["answer"]
-        yield json.loads(bot_response)["answer"]
+        full_response = json.loads(bot_response)["answer"]
+        print(f"This is the full response {full_response}")
+        # TODO: Figure out Async with ConversationalRetrievalChain
+        # For now, we will break the response into chunks of 10 characters
+        for i in range(0, len(full_response), 10): 
+            time.sleep(0.1)
+            yield full_response[i:i+10]
+        # yield json.loads(bot_response)["answer"]
 
 
 
