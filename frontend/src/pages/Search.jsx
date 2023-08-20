@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './style/Search.css';
 
 const Search = () => {
+  const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
   const navigate = useNavigate(); 
   const [searchQuery, setSearchQuery] = useState("");
   const [articles, setArticles] = useState([]);
@@ -25,9 +26,9 @@ const Search = () => {
     e.preventDefault(); // Prevent default form submission
     let url;
     if (predefinedTags.includes(searchQuery)) {
-      url = `http://localhost:8000/search/tag/${searchQuery}`;
+        url = `${apiUrl}/search/tag/${searchQuery}`;
     } else {
-      url = `http://localhost:8000/search/title/${searchQuery}`;
+        url = `${apiUrl}/search/title/${searchQuery}`;
     }
 
     fetch(url)

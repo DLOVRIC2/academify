@@ -7,6 +7,7 @@ import human from "./images/human.png";
 
 
 const ArticlePage = () => {
+  const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
   const location = useLocation();
   const article = location.state?.article;
   const [showChat, setShowChat] = useState(false);
@@ -30,7 +31,7 @@ const ArticlePage = () => {
   const handleQAButtonClick = async () => {
     setLoading(true);
     try {
-      const response = await fetch('http://localhost:8000/start_conversation', { 
+      const response = await fetch(`${apiUrl}/start_conversation`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ article: article })
@@ -63,7 +64,7 @@ const ArticlePage = () => {
     let botResponse = ""; // Accumulate the bot response here
   
     try {
-      const response = await fetch(`http://localhost:8000/chat/${sessionId}?message=${encodeURIComponent(messageInput)}`, {
+      const response = await fetch(`${apiUrl}/chat/${sessionId}?message=${encodeURIComponent(messageInput)}`, {
         method: 'GET'
       });
   
