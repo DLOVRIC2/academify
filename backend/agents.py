@@ -1,22 +1,18 @@
+import json
+import time
 from langchain.llms import OpenAI
 from langchain.prompts import PromptTemplate
 from langchain.chains import ConversationalRetrievalChain, LLMChain
 from langchain.memory import ConversationBufferMemory
 from langchain.document_loaders import OnlinePDFLoader
 from langchain.text_splitter import CharacterTextSplitter
-from search_engine import SearchEngine
-from retriever import VectorDBRetriever
-from langchain.vectorstores import Chroma
-from langchain.chains import RetrievalQA, create_qa_with_sources_chain
+from langchain.chains import create_qa_with_sources_chain
 from langchain.chains.combine_documents.stuff import StuffDocumentsChain
 from langchain.chat_models import ChatOpenAI
-import json
-from search_engine import Article
-import time
+from search_engine import SearchEngine, Article
+from retriever import VectorDBRetriever
+from academify_prompts import AcademifyTemplates
 
-
-
-import openai
 import os
 from dotenv import load_dotenv
 
@@ -101,10 +97,17 @@ class ArticleAgent(SearchEngine, VectorDBRetriever):
         # Setting up relevant chains to be able to retrieve context
         qa_chain = create_qa_with_sources_chain(llm=self.chat_llm)
 
+        # TODO: Compare the effectivness between the two prompts.
+        # doc_prompt = PromptTemplate(
+        #     template="Content: {page_content}\nSource: {source}",
+        #     input_variables=["page_content", "source"]
+        # )
+
         doc_prompt = PromptTemplate(
-            template="Content: {page_content}\nSource: {source}",
+            template=AcademifyTemplates.chat_bot_template,
             input_variables=["page_content", "source"]
         )
+
 
         final_qa_chain = StuffDocumentsChain(
             llm_chain=qa_chain,
@@ -138,10 +141,7 @@ class ArticleAgent(SearchEngine, VectorDBRetriever):
 
 if __name__ == "__main__":
     
+    # Test use case
     agent = ArticleAgent()
-
     _, articles = agent.search_by_title("Chat GPT")
     agent.llm_chat(article_dict=articles[0], question="What are some key insights of this article?")
-
-
-    x = 5
