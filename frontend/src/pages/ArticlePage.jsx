@@ -13,7 +13,7 @@ const ArticlePage = () => {
 
   const handleQAButtonClick = async () => {
     try {
-      const response = await fetch('/start_conversation', {
+      const response = await fetch('http://localhost:8000/start_conversation', { 
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ article: article })
@@ -28,21 +28,25 @@ const ArticlePage = () => {
 
   const handleSendMessage = async () => {
     if (messageInput.trim() === '' || !sessionId) return; // Prevent sending empty messages
-
+  
     try {
-      const response = await fetch(`/chat/${sessionId}`, {
-        method: 'GET',
-        params: { message: messageInput }
+      const response = await fetch(`http://localhost:8000/chat/${sessionId}?message=${encodeURIComponent(messageInput)}`, {
+        method: 'GET'
       });
-      const botResponse = await response.text();
-
+      
+      const responseText = await response.text(); // Get the response as text
+      console.log('Response text:', responseText); // Log the response text
+  
+      // Uncomment the following lines once you've figured out the issue
+      const botResponse = JSON.parse(responseText); // Parse the response text as JSON
       setChatHistory([...chatHistory, { user: 'User', text: messageInput }, { user: 'Bot', text: botResponse }]);
       setMessageInput(''); // Clear the input field
     } catch (error) {
       console.error('Error sending message:', error);
     }
   };
-
+  
+  
   const handleInputChange = (e) => {
     setMessageInput(e.target.value);
   };
