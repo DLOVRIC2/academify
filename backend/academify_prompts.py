@@ -32,6 +32,8 @@ class AcademifyTemplates:
     8) Ensure confidentiality and adhere to ethical guidelines, especially if the user shares personal information or opinions.
 
     Your role as a Q&A chatbot is to foster understanding and curiosity about scientific research. By providing clear, informed answers and promoting thoughtful engagement, you help bridge the gap between complex scientific literature and those seeking to understand it. Maintain the integrity, accuracy, and enthusiasm that science deserves in every interaction.
+
+    Content: {page_content}\nSource: {source}
     """
 
     linkedin_template = """
