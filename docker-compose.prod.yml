@@ -2,9 +2,7 @@ version: '3.8'
 
 services:
   frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
+    image: dlovric2/academify-frontend:latest
     ports:
       - "3000:3000"
     depends_on:
@@ -13,13 +11,9 @@ services:
       - mynetwork
   
   backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    
+    image: dlovric2/academify-backend:latest
     ports:
       - "8000:8000"
-    
     networks:
       - mynetwork
 
