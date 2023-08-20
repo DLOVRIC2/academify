@@ -44,10 +44,17 @@ def search_by_tag(tag: str, max_results: int = 10):
 
 @app.post("/start_conversation")
 def start_conversation(request: StartConversationRequest):
+    article = request.article
+    agent = ArticleAgent()
+    vectorstore = agent.process_article(asdict(article))
+    if vectorstore is None:
+        raise HTTPException(status_code=400, detail="Error processing article")
+
+    agent.vectorstore = vectorstore
     session_id = str(len(conversations))
     conversations[session_id] = {
-        "article": asdict(request.article), # Convert the article object to a dictionary
-        "chat_bot": ArticleAgent(),
+        "article": asdict(article),
+        "chat_bot": agent,
     }
     return {"session_id": session_id}
 
@@ -58,5 +65,5 @@ def chat(session_id: str, message: str):
     if not session:
         raise HTTPException(status_code=404, detail="Session not found")
 
-    response = next(session["chat_bot"].llm_chat(session["article"], message))
+    response = next(session["chat_bot"].llm_chat(message))
     return response
