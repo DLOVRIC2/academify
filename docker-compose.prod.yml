@@ -16,6 +16,7 @@ services:
       - "8000:8000"
     networks:
       - mynetwork
+    container_name: backend
 
 networks:
   mynetwork:

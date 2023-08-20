@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './style/Search.css';
 
 const Search = () => {
-  const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+  const apiUrl = 'http://backend:8000';
   const navigate = useNavigate(); 
   const [searchQuery, setSearchQuery] = useState("");
   const [articles, setArticles] = useState([]);

@@ -7,7 +7,7 @@ import human from "./images/human.png";
 
 
 const ArticlePage = () => {
-  const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+  const apiUrl = 'http://backend:8000';
   const location = useLocation();
   const article = location.state?.article;
   const [showChat, setShowChat] = useState(false);
