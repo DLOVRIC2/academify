@@ -29,7 +29,7 @@ class SearchEngine:
             'Quantitative Finance': 'q-fin'
         }
 
-    def search_by_title(self, title, max_results=10, sort_by: str = arxiv.SortCriterion.Relevance, sort_order: str = arxiv.SortOrder.Descending):
+    def search_by_title(self, title, max_results=10, sort_by: str = arxiv.SortCriterion.SubmittedDate, sort_order: str = arxiv.SortOrder.Descending):
         # Search by title
         search = arxiv.Search(
             query=title,
@@ -41,7 +41,7 @@ class SearchEngine:
         json_data = self._convert_to_json(articles)
         return json_data, articles
 
-    def search_by_tag(self, tag, max_results=10, sort_by: str = arxiv.SortCriterion.Relevance, sort_order: str = arxiv.SortOrder.Descending):
+    def search_by_tag(self, tag, max_results=10, sort_by: str = arxiv.SortCriterion.SubmittedDate, sort_order: str = arxiv.SortOrder.Descending):
         # Search by tag
         category = self.tags.get(tag)
         if category:
@@ -95,5 +95,5 @@ if __name__ == "__main__":
 
     engine = SearchEngine()
     json_data, articles = engine.search_by_title("Chat GPT")
-    engine._save_json(json_data, filename="search_results.json")
+    # engine._save_json(json_data, filename="search_results.json")
     x = 5
