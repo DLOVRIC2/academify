@@ -1,0 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,500&display=swap');
+
+.about-section-container {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center content horizontally */
+    padding: 20px;
+  }
+  
+  .about-section-row {
+    width: 100%;
+    max-width: 1200px; /* Limit the maximum width */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; /* Add space between columns */
+  }
+  
+  .about-section-col-md-6 {
+    width: 50%;
+    padding: 20px;
+  }
+  
+  .about-section-lottie {
+    max-width: 100%;
+    margin: 0 auto; /* Center the Lottie animation */
+  }
+  
+  .about-section-text-container {
+    margin-top: 60px; /* Push the text down */
+    text-align: left;
+  }
+  
+  .about-section-container h1 {
+    font-size: 36px;
+    color: #f0f0f0;
+    font-family: 'Roboto', sans-serif;
+    font-weight: normal !important;
+    margin-bottom: 15px;
+  }
+  
+  .about-section-paragraphs p{ /* Targeting the new div class */
+    font-family: inherit; /* Use the inherited font-family */
+    font-weight: normal !important; /* Set the font-weight to normal */
+    font-style: normal !important; /* Set the font-style to normal */
+    font-size: 20px;
+    color: #f0f0f0;
+    line-height: 1.5;
+    margin-bottom: 20px;
+    text-align: justify;
+  }
