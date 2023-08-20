@@ -20,6 +20,8 @@ origins = [
     "http://localhost:3000",
     "http://localhost:8000",
     "http://3.94.209.49:3000",
+    "http://backend:8000",
+    "http://academify_backend_1:8000",
 
 ]
 app.add_middleware(
