@@ -10,6 +10,7 @@ from langchain.vectorstores import Chroma
 from langchain.chains import RetrievalQA, create_qa_with_sources_chain
 from langchain.chains.combine_documents.stuff import StuffDocumentsChain
 from langchain.chat_models import ChatOpenAI
+import json
 
 
 
@@ -39,7 +40,7 @@ class ArticleAgent(SearchEngine, VectorDBRetriever):
         )
 
     
-    def _process_article(self, article) -> list:
+    def _process_article(self, article) -> None:
         try:
             # Load the PDF directly from the arxiv
             loader = OnlinePDFLoader(article.pdf_url)
@@ -55,12 +56,11 @@ class ArticleAgent(SearchEngine, VectorDBRetriever):
             # Check if the vectorstore exists
             # Ingest the documents (This method is inherited from VectorDBRetriever)
             if not self._does_vectorstore_exist():
-                vectorstore = self.create_vectorstore(documents=documents)
+                self.vectorstore = self.create_vectorstore(documents=documents)
             else:
-                vectorstore = self.add_documents(documents=documents)
+                self.vectorstore = self.add_documents(documents=documents)
             
             print("Document is ready for Q&A")
-            return vectorstore
 
         except Exception as e:
             print(f"Couldn't process the pdf. Exception raised {e}")
@@ -82,13 +82,14 @@ class ArticleAgent(SearchEngine, VectorDBRetriever):
 
         return condense_question_chain
 
-    
 
-    def _llm_chat(self):
-        _, articles = self.search_by_title("Chat GPT")
+    def llm_chat(self, article, question: str):
+        """Allows for the Q&A with the context from the chosen scientific article."""
 
-        self._process_article(articles[0])
+        # Processing and storing the article in the vector db
+        self._process_article(article)
 
+        # Setting up relevant chains to be able to retrieve context
         qa_chain = create_qa_with_sources_chain(llm=self.chat_llm)
 
         doc_prompt = PromptTemplate(
@@ -101,7 +102,8 @@ class ArticleAgent(SearchEngine, VectorDBRetriever):
             document_variable_name="context",
             document_prompt=doc_prompt,
         )
-
+        
+        # For history purposes, we are generating condense format of the input question
         condense_question_chain = self._condense_question_chain()
 
         qa = ConversationalRetrievalChain(
@@ -111,17 +113,19 @@ class ArticleAgent(SearchEngine, VectorDBRetriever):
             combine_docs_chain=final_qa_chain,
         )
         
-
-        chat = True
-        while chat:
-            query = input("What is your question: ")
-            print(qa({"question": str(query)}))
+        bot_response = ""
+        response = qa({"question": str(question)})
+        bot_response = response["answer"]
+        yield json.loads(bot_response)["answer"]
 
 
 
 if __name__ == "__main__":
     
     agent = ArticleAgent()
-    agent._llm_chat()
+
+    _, articles = agent.search_by_title("Chat GPT")
+    agent.llm_chat(article=articles[0], question="What are some key insights of this article?")
 
 
+    x = 5
