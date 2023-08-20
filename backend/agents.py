@@ -11,6 +11,7 @@ from langchain.chains import RetrievalQA, create_qa_with_sources_chain
 from langchain.chains.combine_documents.stuff import StuffDocumentsChain
 from langchain.chat_models import ChatOpenAI
 import json
+from search_engine import Article
 
 
 
@@ -56,11 +57,12 @@ class ArticleAgent(SearchEngine, VectorDBRetriever):
             # Check if the vectorstore exists
             # Ingest the documents (This method is inherited from VectorDBRetriever)
             if not self._does_vectorstore_exist():
-                self.vectorstore = self.create_vectorstore(documents=documents)
+                vectorstore = self.create_vectorstore(documents=documents)
             else:
-                self.vectorstore = self.add_documents(documents=documents)
+                vectorstore = self.add_documents(documents=documents)
             
             print("Document is ready for Q&A")
+            return vectorstore
 
         except Exception as e:
             print(f"Couldn't process the pdf. Exception raised {e}")
@@ -83,11 +85,18 @@ class ArticleAgent(SearchEngine, VectorDBRetriever):
         return condense_question_chain
 
 
-    def llm_chat(self, article, question: str):
+    def llm_chat(self, article_dict, question: str):
         """Allows for the Q&A with the context from the chosen scientific article."""
+        if isinstance(article_dict, Article):
+            article = article_dict
+        else:
+            article = Article(**article_dict)
 
         # Processing and storing the article in the vector db
-        self._process_article(article)
+        self.vectorstore = self._process_article(article)
+        if self.vectorstore is None:
+            print("Error creating a vectorstore. Cannot proceed with the chat")
+            return
 
         # Setting up relevant chains to be able to retrieve context
         qa_chain = create_qa_with_sources_chain(llm=self.chat_llm)
@@ -117,6 +126,7 @@ class ArticleAgent(SearchEngine, VectorDBRetriever):
         response = qa({"question": str(question)})
         bot_response = response["answer"]
         yield json.loads(bot_response)["answer"]
+        # print(json.loads(bot_response)["answer"])
 
 
 
@@ -125,7 +135,7 @@ if __name__ == "__main__":
     agent = ArticleAgent()
 
     _, articles = agent.search_by_title("Chat GPT")
-    agent.llm_chat(article=articles[0], question="What are some key insights of this article?")
+    agent.llm_chat(article_dict=articles[0], question="What are some key insights of this article?")
 
 
     x = 5
