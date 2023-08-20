@@ -41,8 +41,13 @@ class ArticleAgent(SearchEngine, VectorDBRetriever):
         )
 
     
-    def _process_article(self, article) -> None:
+    def process_article(self, article_dict) -> None:
         try:
+            if isinstance(article_dict, Article):
+                article = article_dict
+            else:
+                article = Article(**article_dict)
+
             # Load the PDF directly from the arxiv
             loader = OnlinePDFLoader(article.pdf_url)
             
@@ -85,17 +90,11 @@ class ArticleAgent(SearchEngine, VectorDBRetriever):
         return condense_question_chain
 
 
-    def llm_chat(self, article_dict, question: str):
+    def llm_chat(self, question: str):
         """Allows for the Q&A with the context from the chosen scientific article."""
-        if isinstance(article_dict, Article):
-            article = article_dict
-        else:
-            article = Article(**article_dict)
-
         # Processing and storing the article in the vector db
-        self.vectorstore = self._process_article(article)
         if self.vectorstore is None:
-            print("Error creating a vectorstore. Cannot proceed with the chat")
+            print("Error: Vectorstore not initialized. Cannot proceed with the chat")
             return
 
         # Setting up relevant chains to be able to retrieve context
@@ -126,7 +125,6 @@ class ArticleAgent(SearchEngine, VectorDBRetriever):
         response = qa({"question": str(question)})
         bot_response = response["answer"]
         yield json.loads(bot_response)["answer"]
-        # print(json.loads(bot_response)["answer"])
 
 
 
