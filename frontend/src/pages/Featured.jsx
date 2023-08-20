@@ -9,23 +9,19 @@ import './style/Featured.css';
 const Featured = () => {
     return (
         <div>
-
-            {/* <h2 className="featured-header">Featured on:</h2> */}
-
-
-
             <div className="featured-container">
                 <div className="logo-row justify-content-center">
-                    <img src={logo1} alt="Logo 1" className="logo-img" />
-                    <img src={logo2} alt="Logo 2" className="logo-img" />
-                    <img src={logo3} alt="Logo 3" className="logo-img" />
-                    <img src={logo4} alt="Logo 4" className="logo-img" />
+                    <div className="logo-container">
+                        <img src={logo1} alt="Logo 1" className="logo-img" />
+                        <img src={logo2} alt="Logo 2" className="logo-img" />
+                        <img src={logo3} alt="Logo 3" className="logo-img" />
+                        <img src={logo4} alt="Logo 4" className="logo-img" />
+                    </div>
                 </div>
             </div>
         </div>
     );
 };
-
   
   
   export default Featured;
