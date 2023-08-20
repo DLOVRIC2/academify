@@ -45,9 +45,9 @@ To stop the application, use the command `docker-compose -f docker-compose.dev.y
 
 The production version uses the images built for frontend and backend deployed here: 
 
-Frontend: https://hub.docker.com/repository/docker/dlovric2/academify-frontend
+Frontend: https://hub.docker.com/r/dlovric2/academify-frontend
 
-Backend: https://hub.docker.com/repository/docker/dlovric2/academify-backend/general
+Backend: https://hub.docker.com/r/dlovric2/academify-backend
 
 ### Troubleshooting
 
