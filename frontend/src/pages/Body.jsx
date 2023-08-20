@@ -2,6 +2,7 @@ import React from "react";
 import Hero from "./Hero";
 import Featured from "./Featured";
 import AboutSection from "./AboutSection"; // Import the AboutSection component
+import Footer from "./Footer";
 
 
 const Body = () => {
@@ -9,7 +10,8 @@ const Body = () => {
     <div>
       <Hero />
       <Featured />
-      <AboutSection /> {/* Include the AboutSection component */}=
+      <AboutSection />
+      <Footer />
     </div>
   );
 };
