@@ -3,11 +3,18 @@
     padding: 30px 0;
     text-align: center;
     border-top: 2px solid #f0f0f0; /* Boundary line */
-    color: #333; /* Color for 'Stay connected' */
+    color: #f0f0f0; /* Color for 'Stay connected' */
+    font-family: 'Roboto', sans-serif;
   }
   
+  .footer h5 {
+    align-self: center; /* Center align for 'Stay connected' */
+    margin-bottom: 10px;
+    margin-left: 100px;
+  }
+
   .social-icons {
-    margin-bottom: 20px;
+    margin-bottom: 0;
   }
   
   .icon {

@@ -5,7 +5,7 @@ import './style/Footer.css';
 const Footer = () => {
   return (
     <div className="footer">
-      <h5 className='fw-light text-center p-3'>Stay connected</h5>
+      <h5 className='fw-light text-center p-3'>Stay connected.</h5>
       <div className="container text-center">
         <div className="social-icons">
           <a href="#"><Facebook className='icon' size={45} /></a>
