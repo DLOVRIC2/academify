@@ -26,7 +26,7 @@ class SearchEngine:
             'Computer Science': 'cs',
             'AI': 'cs.AI',
             'Economics': 'econ',
-            'Quantitative Finance': 'q-fin'
+            'Quantitative Finance': 'quantitative finance'
         }
 
     def search_by_title(self, title, max_results=10, sort_by: str = arxiv.SortCriterion.SubmittedDate, sort_order: str = arxiv.SortOrder.Descending):
