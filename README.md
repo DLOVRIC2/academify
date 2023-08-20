@@ -44,7 +44,9 @@ Follow these steps to get DesignDive up and running
 To stop the application, use the command `docker-compose -f docker-compose.dev.yml down`.
 
 The production version uses the images built for frontend and backend deployed here: 
+
 Frontend: https://hub.docker.com/repository/docker/dlovric2/academify-frontend
+
 Backend: https://hub.docker.com/repository/docker/dlovric2/academify-backend/general
 
 ### Troubleshooting
