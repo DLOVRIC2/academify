@@ -6,8 +6,7 @@ from agents import ArticleAgent
 from search_engine import SearchEngine, Article
 from fastapi.middleware.cors import CORSMiddleware
 from dataclasses import asdict
-
-
+import json
 
 
 app = FastAPI()
@@ -59,11 +58,16 @@ def start_conversation(request: StartConversationRequest):
     return {"session_id": session_id}
 
 
+
 @app.get("/chat/{session_id}")
-def chat(session_id: str, message: str):
+async def chat(session_id: str, message: str):
     session = conversations.get(session_id)
     if not session:
         raise HTTPException(status_code=404, detail="Session not found")
 
-    response = next(session["chat_bot"].llm_chat(message))
-    return response
+    def generate_response():
+        for response_chunk in session["chat_bot"].llm_chat(message):
+            # Wrap each chunk in a JSON object
+            yield json.dumps({"text": response_chunk})
+
+    return StreamingResponse(generate_response(), media_type="application/json")
