@@ -49,22 +49,6 @@
     color: #f0f0f0;
   }
   
-  /* Search button styling, similar to existing buttons */
-  .search-button {
-    background-image: linear-gradient(144deg, #ff9b38, #ff4e88 50%, #ff4e88);
-    border: 0;
-    border-radius: 8px;
-    color: #FFFFFF;
-    font-size: 20px;
-    padding: 10px 20px;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: background-position 0.5s, color 0.5s;
-  }
-  
-  .search-button:hover {
-    background-position: right center;
-  }
 
   /* Search button styling */
 .search-button {
@@ -79,6 +63,8 @@
     transition: background-position 0.5s, color 0.5s;
     margin-right: 10px; /* Margin to add space between the Search and Go buttons */
   }
+
+  
   
   /* Go button styling */
   .go-button {
@@ -118,7 +104,9 @@
     font-size: 24px;
     text-align: center;
     color: #f0f0f0;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+    font-family: 'Roboto', sans-serif;
+    margin-top: 10px;
   }
   
 
