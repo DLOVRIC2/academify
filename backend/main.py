@@ -5,7 +5,8 @@ from pydantic import BaseModel
 from agents import ArticleAgent
 from search_engine import SearchEngine, Article
 from fastapi.middleware.cors import CORSMiddleware
-import uvicorn
+from dataclasses import asdict
+
 
 
 
@@ -42,7 +43,7 @@ def search_by_tag(tag: str, max_results: int = 10):
 def start_conversation(article: Article):
     session_id = str(len(conversations))
     conversations[session_id] = {
-        "article": article.dict(),
+        "article": asdict(article),
         "chat_bot": ArticleAgent(),
     }
     return {"session_id": session_id}
