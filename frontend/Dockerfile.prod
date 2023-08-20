@@ -1,7 +1,8 @@
 # Build stage
 FROM node:18.17.1-alpine3.18 AS build
-WORKDIR /app
+WORKDIR /frontend
 COPY package*.json ./
+COPY .env.prod ./.env
 RUN npm install
 COPY . .
 RUN npm run build
