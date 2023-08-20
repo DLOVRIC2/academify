@@ -28,6 +28,9 @@ app.add_middleware(
 )
 
 
+class StartConversationRequest(BaseModel):
+    article: Article
+
 @app.get("/search/title/{title}")
 def search_by_title(title: str, max_results: int = 10):
     json_data, _ = engine.search_by_title(title, max_results)
@@ -40,10 +43,10 @@ def search_by_tag(tag: str, max_results: int = 10):
 
 
 @app.post("/start_conversation")
-def start_conversation(article: Article):
+def start_conversation(request: StartConversationRequest):
     session_id = str(len(conversations))
     conversations[session_id] = {
-        "article": asdict(article),
+        "article": asdict(request.article), # Convert the article object to a dictionary
         "chat_bot": ArticleAgent(),
     }
     return {"session_id": session_id}
