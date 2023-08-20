@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,500&display=swap');
+
+
 .featured-container {
   padding: 20px;
   background-color: rgba(255, 255, 255, 0.1);
@@ -15,7 +18,9 @@
   color: #f0f0f0; /* Adjust color as needed */
   margin-bottom: 10px; /* Space between title and container */
   text-align: left; /* Align to the left */
-  font-family: 'Roboto', sans-serif; /* Set font family to Roboto */
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500; /* Use the same weight you specified in the Google Fonts link */
+  font-style: italic; 
   margin-left: 20px;
   margin-bottom: -10px;
 }
