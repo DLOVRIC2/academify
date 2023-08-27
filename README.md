@@ -3,7 +3,8 @@
 Solo project for the Lablab.ai Autonomous Agents Hackathon
 
 You can check out the application at the following link:
-http://3.94.209.49:3000/
+http://3.81.52.8:3000/
+
 
 ### Prerequisites
 
