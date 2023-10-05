@@ -31,7 +31,7 @@ humanfriendly==10.0
 idna==3.4
 importlib-resources==6.0.1
 joblib==1.3.2
-langchain==0.0.265
+langchain==0.0.308
 langsmith==0.0.22
 lxml==4.9.3
 marshmallow==3.20.1
